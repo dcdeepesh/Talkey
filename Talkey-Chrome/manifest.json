@@ -1,0 +1,31 @@
+{
+    "name": "Talkey",
+    "description": "Global Push-to-Talk for Google Meet",
+    "version": "1.0",
+    "author": "Deepesh Choudhary",
+    "manifest_version": 2,
+
+    "icons": {
+        "16": "icons/on/icon16.png",
+        "32": "icons/on/icon32.png",
+        "48": "icons/on/icon48.png",
+        "128": "icons/on/icon128.png",
+        "256": "icons/on/icon256.png"
+    },
+
+    "permissions": ["activeTab"],
+   
+    "browser_action": {},
+
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": true
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://meet.google.com/*"],
+            "js": ["content-script.js"]
+        }
+    ]
+}
