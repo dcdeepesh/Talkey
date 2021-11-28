@@ -5,9 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Talkey"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         Title="Talkey settings" Height="450" Width="400">
-    <Grid>
-        
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Push to talk key">
+            <DockPanel Grid.Row="1" LastChildFill="False" Margin="5">
+                <StackPanel Orientation="Horizontal" x:Name="Keys" />
+                <Button Content="Change" DockPanel.Dock="Right" Padding="2"/>
+            </DockPanel>
+        </GroupBox>
+
     </Grid>
 </Window>
