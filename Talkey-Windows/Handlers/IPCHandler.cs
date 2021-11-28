@@ -1,11 +1,17 @@
-﻿using WebSocketSharp.Server;
+﻿using WebSocketSharp;
+using WebSocketSharp.Server;
 
 namespace Handlers {
     class WebSocketServerBehaviour : WebSocketBehavior {
-        protected override void OnOpen() => Send("MUTE");
+        public void SendMute() {
+            if (State == WebSocketState.Open)
+                Send("MUTE");
+        }
 
-        public void SendMute() => Send("MUTE");
-        public void SendUnmute() => Send("UNMUTE");
+        public void SendUnmute() {
+             if (State == WebSocketState.Open)
+                Send("UNMUTE");
+        }
     }
 
     public class IPCHandler {
