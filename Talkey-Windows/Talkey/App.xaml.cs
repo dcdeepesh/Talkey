@@ -12,6 +12,7 @@ namespace Talkey {
     public partial class App : Application {
         readonly string CHROME_EXTENSION_URL = "https://www.google.com/";
         NotifyIcon trayIcon;
+        TrayWindow trayWindow;
 
         public App() {
             CheckSingleInstance();
@@ -44,7 +45,16 @@ namespace Talkey {
                 Icon = Talkey.Properties.Resources.TrayIcon,
                 Text = "Talkey (Google Meet Push-to-talk)",
                 ContextMenu = menu,
-                Visible = true
+                Visible = true,
+            };
+
+            trayIcon.Click += (sender, e) => {
+                if (trayWindow == null) {
+                    trayWindow = new TrayWindow();
+                    trayWindow.Show();
+                } else {
+                    trayWindow.Activate();
+                }
             };
         }
     }
