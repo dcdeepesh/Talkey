@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 
 using Handlers;
 
@@ -11,19 +12,28 @@ namespace Talkey {
         NotifyIcon trayIcon;
 
         public App() {
-            HookHandler.Init();
+            CheckSingleInstance();
             IPCHandler.Init();
             InitTrayIcon();
+            HookHandler.Init();
         }
 
-        private void OnExit(object sender, ExitEventArgs e) {
+        void OnExit(object sender, ExitEventArgs e) {
             HookHandler.Shutdown();
             IPCHandler.Shutdown();
             trayIcon.Dispose();
         }
 
-        private void InitTrayIcon() {
-            MenuItem menuItem = new MenuItem("Exit", (sender, e) => Application.Current.Shutdown());
+        void CheckSingleInstance() {
+            Mutex mutex = new Mutex(true, "TalkeyWindowsSingleInstanceMutex");
+            if (!mutex.WaitOne(0, true)) {
+                MessageBox.Show("Talkey is already running", "Talkey", MessageBoxButton.OK, MessageBoxImage.Information);
+                Current.Shutdown();
+            }
+        }
+
+        void InitTrayIcon() {
+            MenuItem menuItem = new MenuItem("Exit", (sender, e) => Current.Shutdown());
             ContextMenu menu = new ContextMenu(new[] { menuItem });
 
             trayIcon = new NotifyIcon {
