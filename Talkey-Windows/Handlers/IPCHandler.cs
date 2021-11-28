@@ -1,4 +1,6 @@
-﻿using WebSocketSharp;
+﻿using System;
+
+using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace Handlers {
@@ -20,20 +22,34 @@ namespace Handlers {
         private static WebSocketServer wsServer;
         private static WebSocketServerBehaviour wsBehaviour;
 
+        private static EventHandler<KbdLLHookStruct> onKeyPressed, onKeyReleased;
+
         public static void Init() {
             wsServer = new WebSocketServer(PORT);
             wsServer.AddWebSocketService<WebSocketServerBehaviour>("/",
                 behaviour => wsBehaviour = behaviour);
             wsServer.Start();
+
+            onKeyPressed = (sender, kbdInfo) => {
+                if (kbdInfo.vkCode == KeyHandler.CurrentPTTKey)
+                    wsBehaviour?.SendMute();
+            };
+            KeyHandler.OnKeyPressed += onKeyPressed;
+
+            onKeyReleased = (sender, kbdInfo) => {
+                if (kbdInfo.vkCode == KeyHandler.CurrentPTTKey)
+                    wsBehaviour?.SendUnmute();
+            };
+            KeyHandler.OnKeyReleased += onKeyReleased;
         }
 
         public static void Shutdown() {
+            KeyHandler.OnKeyPressed -= onKeyPressed;
+            KeyHandler.OnKeyReleased -= onKeyReleased;
+
             if (wsServer != null && wsServer.IsListening)
                 wsServer.Stop();
             wsServer = null;
         }
-
-        public static void SendMute() => wsBehaviour?.SendMute();
-        public static void SendUnmute() => wsBehaviour?.SendUnmute();
     }
 }

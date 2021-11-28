@@ -4,13 +4,6 @@ using System.Runtime.InteropServices;
 using Util;
 
 namespace Handlers {
-    class WM {
-        public static readonly int KEYDOWN    = 0x0100;
-        public static readonly int KEYUP      = 0x0101;
-        public static readonly int SYSKEYDOWN = 0x0104;
-        public static readonly int SYSKEYUP   = 0x0105;
-    }
-
     /// <summary>
     /// Enumeration for virtual keys.
     /// </summary>
@@ -214,7 +207,7 @@ namespace Handlers {
     }
 
 #pragma warning disable CS0649
-    struct KbdLLHookStruct {
+    public struct KbdLLHookStruct {
         public VK vkCode;
         public uint scanCode;
         public uint flags;
@@ -224,35 +217,34 @@ namespace Handlers {
 #pragma warning restore CS0649
 
     public class KeyHandler {
-        private static VK currentPTTKey = VK.LeftControl;
+        public static VK CurrentPTTKey = VK.LeftControl;
+
+        public static event EventHandler<KbdLLHookStruct> OnKeyPressed;
+        public static event EventHandler<KbdLLHookStruct> OnKeyReleased;
+        public static event EventHandler<KbdLLHookStruct> OnSysKeyPressed;
+        public static event EventHandler<KbdLLHookStruct> OnSysKeyReleased;
 
         public static void OnKeyEvent(IntPtr wParam, IntPtr lParam) {
             KbdLLHookStruct kbdInfo = (KbdLLHookStruct)
                 Marshal.PtrToStructure(lParam, typeof(KbdLLHookStruct));
 
             if (wParam == new IntPtr(WM.KEYDOWN))
-                OnKeyPressed(kbdInfo);
+                OnKeyPressed?.Invoke(new object(), kbdInfo);
             else if (wParam == new IntPtr(WM.KEYUP))
-                OnKeyReleased(kbdInfo);
+                OnKeyReleased?.Invoke(new object(), kbdInfo);
             else if (wParam == new IntPtr(WM.SYSKEYDOWN))
-                OnSyskeyPressed(kbdInfo);
+                OnSysKeyPressed?.Invoke(new object(), kbdInfo);
             else if (wParam == new IntPtr(WM.SYSKEYUP))
-                OnSyskeyReleased(kbdInfo);
+                OnSysKeyReleased?.Invoke(new object(), kbdInfo);
             else
                 Log.E("Key handler not found");
         }
+    }
 
-        private static void OnKeyPressed(KbdLLHookStruct kbdInfo) {
-            if (kbdInfo.vkCode == currentPTTKey)
-                IPCHandler.SendUnmute();
-        }
-
-        private static void OnKeyReleased(KbdLLHookStruct kbdInfo) {
-            if (kbdInfo.vkCode == currentPTTKey)
-                IPCHandler.SendMute();
-        }
-
-        private static void OnSyskeyPressed(KbdLLHookStruct kbdInfo) {}
-        private static void OnSyskeyReleased(KbdLLHookStruct kbdInfo) {}
+    class WM {
+        public static readonly int KEYDOWN    = 0x0100;
+        public static readonly int KEYUP      = 0x0101;
+        public static readonly int SYSKEYDOWN = 0x0104;
+        public static readonly int SYSKEYUP   = 0x0105;
     }
 }
