@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 
 using Handlers;
@@ -9,6 +10,7 @@ using MenuItem = System.Windows.Forms.MenuItem;
 
 namespace Talkey {
     public partial class App : Application {
+        readonly string CHROME_EXTENSION_URL = "https://www.google.com/";
         NotifyIcon trayIcon;
 
         public App() {
@@ -33,8 +35,10 @@ namespace Talkey {
         }
 
         void InitTrayIcon() {
-            MenuItem menuItem = new MenuItem("Exit", (sender, e) => Current.Shutdown());
-            ContextMenu menu = new ContextMenu(new[] { menuItem });
+            MenuItem exitItem = new MenuItem("Exit", (sender, e) => Current.Shutdown());
+            MenuItem installChromeItem = new MenuItem("Install Chrome extension", (sender, e) =>
+                Process.Start(CHROME_EXTENSION_URL));
+            ContextMenu menu = new ContextMenu(new[] { installChromeItem, exitItem });
 
             trayIcon = new NotifyIcon {
                 Icon = Talkey.Properties.Resources.TrayIcon,
