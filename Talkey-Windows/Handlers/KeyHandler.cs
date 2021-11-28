@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using Util;
@@ -217,12 +218,35 @@ namespace Handlers {
 #pragma warning restore CS0649
 
     public class KeyHandler {
-        public static VK CurrentPTTKey = VK.LeftControl;
+        public static readonly List<VK> CurrentKeyCombo = new List<VK>();
+        private static readonly List<VK> PressedKeys = new List<VK>();
 
         public static event EventHandler<KbdLLHookStruct> OnKeyPressed;
         public static event EventHandler<KbdLLHookStruct> OnKeyReleased;
-        public static event EventHandler<KbdLLHookStruct> OnSysKeyPressed;
-        public static event EventHandler<KbdLLHookStruct> OnSysKeyReleased;
+        public static event EventHandler OnMute;
+        public static event EventHandler OnUnmute;
+
+        #region Logic for OnMute and OnUnmute
+
+        static bool mute = true;
+
+        static KeyHandler() {
+            OnKeyPressed += (sender, args) => {
+                if (mute && CheckUnmuteCondition()) {
+                    mute = false;
+                    OnUnmute?.Invoke(new object(), new EventArgs());
+                }
+            };
+
+            OnKeyReleased += (sender, args) => {
+                if (!mute && !CheckUnmuteCondition()) {
+                    mute = true;
+                    OnMute?.Invoke(new object(), new EventArgs());
+                }
+            };
+        }
+
+        #endregion
 
         public static void OnKeyEvent(IntPtr wParam, IntPtr lParam) {
             KbdLLHookStruct kbdInfo = (KbdLLHookStruct)
@@ -233,11 +257,19 @@ namespace Handlers {
             else if (wParam == new IntPtr(WM.KEYUP))
                 OnKeyReleased?.Invoke(new object(), kbdInfo);
             else if (wParam == new IntPtr(WM.SYSKEYDOWN))
-                OnSysKeyPressed?.Invoke(new object(), kbdInfo);
+                ; // TODO what to do here?
             else if (wParam == new IntPtr(WM.SYSKEYUP))
-                OnSysKeyReleased?.Invoke(new object(), kbdInfo);
+                ; // TODO what to do here?
             else
                 Log.E("Key handler not found");
+        }
+
+        static bool CheckUnmuteCondition() {
+            foreach (VK key in CurrentKeyCombo)
+                if (!PressedKeys.Contains(key))
+                    return false;
+
+            return true;
         }
     }
 
