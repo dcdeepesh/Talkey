@@ -218,8 +218,8 @@ namespace Handlers {
 #pragma warning restore CS0649
 
     public class KeyHandler {
-        public static readonly List<VK> CurrentKeyCombo = new List<VK>();
-        private static readonly List<VK> PressedKeys = new List<VK>();
+        public static readonly HashSet<VK> CurrentKeyCombo = new HashSet<VK>();
+        private static readonly HashSet<VK> PressedKeys = new HashSet<VK>();
 
         public static event EventHandler<KbdLLHookStruct> OnKeyPressed;
         public static event EventHandler<KbdLLHookStruct> OnKeyReleased;
@@ -232,6 +232,7 @@ namespace Handlers {
 
         static KeyHandler() {
             OnKeyPressed += (sender, args) => {
+                PressedKeys.Add(args.vkCode);
                 if (mute && CheckUnmuteCondition()) {
                     mute = false;
                     OnUnmute?.Invoke(new object(), new EventArgs());
@@ -239,6 +240,7 @@ namespace Handlers {
             };
 
             OnKeyReleased += (sender, args) => {
+                PressedKeys.Remove(args.vkCode);
                 if (!mute && !CheckUnmuteCondition()) {
                     mute = true;
                     OnMute?.Invoke(new object(), new EventArgs());
@@ -247,6 +249,11 @@ namespace Handlers {
         }
 
         #endregion
+
+        public static void ChangeCurrentKeyCombo(HashSet<VK> newKeyCombo) {
+            CurrentKeyCombo.Clear();
+            CurrentKeyCombo.UnionWith(newKeyCombo);
+        }
 
         public static void OnKeyEvent(IntPtr wParam, IntPtr lParam) {
             KbdLLHookStruct kbdInfo = (KbdLLHookStruct)

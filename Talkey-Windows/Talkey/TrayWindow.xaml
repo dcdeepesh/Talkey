@@ -18,10 +18,18 @@
         </Grid.RowDefinitions>
 
         <GroupBox Header="Push to talk key">
-            <DockPanel Grid.Row="1" LastChildFill="False" Margin="5">
-                <StackPanel Orientation="Horizontal" x:Name="Keys" />
-                <Button Content="Change" DockPanel.Dock="Right" Padding="2"/>
-            </DockPanel>
+            <StackPanel Orientation="Vertical">
+                <DockPanel Grid.Row="1" LastChildFill="False" Margin="5">
+                    <Button x:Name="ChangeButton" Content="Change" Click="OnClickChange"
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
+                    <Button x:Name="DoneButton" Visibility="Collapsed" Content="Done" Click="OnClickDone"
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
+                    <Button x:Name="ResetButton" Visibility="Collapsed" Content="Reset" Click="OnClickReset"
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
+                    <StackPanel Orientation="Horizontal" x:Name="Keys" />
+                </DockPanel>
+                <TextBlock x:Name="KeyAdvice" Visibility="Collapsed" FontSize="11" Text="Press keys to add to combination, releasing has no effect." Foreground="Gray" Margin="5" />
+            </StackPanel>
         </GroupBox>
 
     </Grid>
