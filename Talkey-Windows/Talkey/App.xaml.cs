@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Media;
 using System.Threading;
 using System.Windows;
 
@@ -16,14 +17,17 @@ namespace Talkey {
 
         public App() {
             CheckSingleInstance();
-            IPCHandler.Init();
             InitTrayIcon();
+            IPCHandler.Init();
             HookHandler.Init();
+            SoundHandler.Init();
+            LoadPreferences();
         }
 
         void OnExit(object sender, ExitEventArgs e) {
             HookHandler.Shutdown();
             IPCHandler.Shutdown();
+            SoundHandler.Shutdown();
             trayIcon.Dispose();
         }
 
@@ -33,6 +37,10 @@ namespace Talkey {
                 MessageBox.Show("Talkey is already running", "Talkey", MessageBoxButton.OK, MessageBoxImage.Information);
                 Current.Shutdown();
             }
+        }
+
+        void LoadPreferences() {
+            KeyHandler.CurrentKeyCombo.Add(VK.LeftControl);
         }
 
         void InitTrayIcon() {
