@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
-using System.Media;
 using System.Threading;
 using System.Windows;
 
 using Handlers;
+using Util;
 
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
@@ -17,6 +17,7 @@ namespace Talkey {
 
         public App() {
             CheckSingleInstance();
+            Log.Init();
             InitTrayIcon();
             IPCHandler.Init();
             HookHandler.Init();

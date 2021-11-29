@@ -105,6 +105,10 @@
       <Project>{4d4d6243-c7ce-47e7-a639-2c944106015f}</Project>
       <Name>Handlers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Util\Util.csproj">
+      <Project>{cc53b1f9-adc3-45da-a019-4f0cc491887d}</Project>
+      <Name>Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TrayIcon.ico" />
