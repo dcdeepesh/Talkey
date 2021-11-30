@@ -8,6 +8,7 @@ using Util;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
+using System;
 
 namespace Talkey {
     public partial class App : Application {
@@ -18,6 +19,7 @@ namespace Talkey {
         public App() {
             CheckSingleInstance();
             Log.Init();
+            InitGlobalExceptionHandler();
             InitTrayIcon();
             IPCHandler.Init();
             HookHandler.Init();
@@ -42,6 +44,14 @@ namespace Talkey {
 
         void LoadPreferences() {
             KeyHandler.CurrentKeyCombo.Add(VK.LeftControl);
+        }
+
+        void InitGlobalExceptionHandler() {
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
+            Log.E(e.ExceptionObject.ToString());
         }
 
         void InitTrayIcon() {
