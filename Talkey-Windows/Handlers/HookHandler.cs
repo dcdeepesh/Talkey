@@ -15,6 +15,14 @@ namespace Handlers {
         //private static readonly string DLL_FILE = "C:\\Users\\dcdee\\CC\\Programs\\Talkey\\Debug\\Hook.dll";
         private static readonly string DLL_FILE = "Hook.dll";
 
+        private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "RegisterCallback";
+        private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "LowLevelKeyboardProc";
+
+        /*
+        private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "_RegisterCallback@4";
+        private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "_LowLevelKeyboardProc@12";
+        */
+
         private static IntPtr hDll, hHook;
         private static IntPtr lpfnRegisterCallback, lpfnLLKeyboardProc;
 
@@ -49,13 +57,13 @@ namespace Handlers {
                 return;
             }
 
-            lpfnRegisterCallback = GetProcAddress(hDll, "_RegisterCallback@4");
+            lpfnRegisterCallback = GetProcAddress(hDll, REGISTER_CALLBACK_FUNCTION_NAME);
             if (lpfnRegisterCallback == null) {
                 Log.E("RegisterCallback not found");
                 return;
             }
 
-            lpfnLLKeyboardProc = GetProcAddress(hDll, "_LowLevelKeyboardProc@12");
+            lpfnLLKeyboardProc = GetProcAddress(hDll, LLKEYBOARDPROC_FUNCTION_NAME);
             if (lpfnLLKeyboardProc == null) {
                 Log.E("LLKeyboardProc not found");
                 return;
