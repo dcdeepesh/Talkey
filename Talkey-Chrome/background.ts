@@ -9,11 +9,10 @@ chrome.runtime.onInstalled.addListener(() => setIcon('off'));
 chrome.browserAction.onClicked.addListener(() => {
     if (state == State.Off) {
         chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-            let tab = tabs[0];
-            if (tab.url === undefined || tab.id === undefined)
-                return; // TODO error
-            
-            if (!/^https?:\/\/meet\.google\.com\//i.test(tab.url)) {
+            const tab = tabs[0];
+            if (tab.url === undefined
+                || tab.id === undefined
+                || (!/^https?:\/\/meet\.google\.com\//i.test(tab.url))) {
                 setIcon('error');
                 setTimeout(() => setIcon('off'), 500);
                 return;
@@ -61,7 +60,7 @@ function unmute() {
     chrome.tabs.sendMessage(tabId, { "action": "unmute" });
 }
 
-function setIcon(iconType: String) {
+function setIcon(iconType: string) {
     chrome.browserAction.setIcon({
         path: {
             "16": `icons/${iconType}/icon16.png`,
