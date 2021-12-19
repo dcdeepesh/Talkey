@@ -4,6 +4,8 @@ let state = State.Off;
 let socket: WebSocket;
 let tabId: number;
 
+const URL_REGEX = /^https?:\/\/meet\.google\.com\//i;
+
 chrome.runtime.onInstalled.addListener(() => setIcon('off'));
 
 chrome.browserAction.onClicked.addListener(() => {
@@ -12,7 +14,7 @@ chrome.browserAction.onClicked.addListener(() => {
             const tab = tabs[0];
             if (tab.url === undefined
                 || tab.id === undefined
-                || (!/^https?:\/\/meet\.google\.com\//i.test(tab.url))) {
+                || (!URL_REGEX.test(tab.url))) {
                 setIcon('error');
                 setTimeout(() => setIcon('off'), 500);
                 return;
@@ -23,12 +25,17 @@ chrome.browserAction.onClicked.addListener(() => {
             state = State.Connecting;
             initWebsocket();
         });
-    } else {
-        try { closeWebsocket(); }
-        catch (e) {}
-        setIcon('off');
-        state = State.Off;
-    }
+    } else closeWebsocket();
+});
+
+chrome.tabs.onRemoved.addListener((closedTabId: number, _) => {
+    if (closedTabId == tabId)
+        closeWebsocket();
+});
+
+chrome.tabs.onUpdated.addListener((_, changeInfo: chrome.tabs.TabChangeInfo) => {
+    if (changeInfo.url && !URL_REGEX.test(changeInfo.url))
+        closeWebsocket();
 });
 
 function initWebsocket() {
@@ -36,20 +43,21 @@ function initWebsocket() {
     socket.addEventListener('open', () => {
         setIcon('on');
         state = State.On;
-    });             
-    socket.addEventListener('message', onWSMessage);
+    });
+    socket.addEventListener('message', (event: MessageEvent<any>) => {
+        const data = event.data.toString();
+        if (data === 'MUTE')
+            mute();
+        else if (data === 'UNMUTE')
+            unmute();
+    });
+    socket.addEventListener('close', closeWebsocket);
 }
 
 function closeWebsocket() {
     socket.close();
-}
-
-function onWSMessage(event: MessageEvent<any>) {
-    const data = event.data.toString();
-    if (data === 'MUTE')
-        mute();
-    else if (data === 'UNMUTE')
-        unmute();
+    setIcon('off');
+    state = State.Off;
 }
 
 function mute() {
