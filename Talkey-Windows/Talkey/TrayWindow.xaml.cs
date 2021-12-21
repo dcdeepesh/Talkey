@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 
 using Handlers;
+using System.ComponentModel;
 
 namespace Talkey {
     public partial class TrayWindow : Window {
         public TrayWindow() {
             InitializeComponent();
             ShowCurrentKeyCombo();
+        }
+
+        protected override void OnClosing(CancelEventArgs e) {
+            Hide();
+            e.Cancel = true;
         }
 
         void ShowCurrentKeyCombo() {

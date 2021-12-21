@@ -14,7 +14,7 @@ namespace Talkey {
     public partial class App : Application {
         readonly string CHROME_EXTENSION_URL = "https://www.google.com/";
         NotifyIcon trayIcon;
-        TrayWindow trayWindow;
+        readonly TrayWindow trayWindow;
 
         public App() {
             CheckSingleInstance();
@@ -25,6 +25,7 @@ namespace Talkey {
             HookHandler.Init();
             SoundHandler.Init();
             LoadPreferences();
+            trayWindow = new TrayWindow();
         }
 
         void OnExit(object sender, ExitEventArgs e) {
@@ -47,11 +48,8 @@ namespace Talkey {
         }
 
         void InitGlobalExceptionHandler() {
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-        }
-
-        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
-            Log.E(e.ExceptionObject.ToString());
+            AppDomain.CurrentDomain.UnhandledException += 
+                (sender, e) => Log.E(e.ExceptionObject.ToString());
         }
 
         void InitTrayIcon() {
@@ -68,12 +66,8 @@ namespace Talkey {
             };
 
             trayIcon.Click += (sender, e) => {
-                if (trayWindow == null) {
-                    trayWindow = new TrayWindow();
-                    trayWindow.Show();
-                } else {
-                    trayWindow.Activate();
-                }
+                trayWindow.Show();
+                trayWindow.Activate();
             };
         }
     }
