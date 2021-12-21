@@ -1,14 +1,20 @@
-﻿using System.Windows;
+﻿using System;
 using System.Collections.Generic;
-
-using Handlers;
 using System.ComponentModel;
+using System.Windows;
+
+using Microsoft.Win32;
+using Handlers;
+using System.Reflection;
 
 namespace Talkey {
     public partial class TrayWindow : Window {
         public TrayWindow() {
             InitializeComponent();
             ShowCurrentKeyCombo();
+            cbActivate.IsChecked = Preferences.cbActivate;
+            cbDeactivate.IsChecked = Preferences.cbDeactivate;
+            cbStartup.IsChecked = Preferences.cbStartup;
         }
 
         protected override void OnClosing(CancelEventArgs e) {
@@ -46,7 +52,7 @@ namespace Talkey {
 
         #region Key combo changing logic
 
-        HashSet<VK> newCombo = new HashSet<VK>();
+        readonly HashSet<VK> newCombo = new HashSet<VK>();
 
         void BeginChangingKeyCombo() {
             ResetKeyCombo();
@@ -62,6 +68,7 @@ namespace Talkey {
             KeyHandler.OnKeyPressed -= OnKeyPressed;
             if (newCombo.Count != 0) {
                 KeyHandler.ChangeCurrentKeyCombo(newCombo);
+                Preferences.StoreKeyCombo(newCombo);
                 ResetKeyCombo();
             }
             ShowCurrentKeyCombo();
@@ -73,6 +80,30 @@ namespace Talkey {
                 key.KeyName.Text = kbdInfo.vkCode.ToString();
                 Keys.Children.Add(key);
             }
+        }
+
+        #endregion
+
+        #region Checkbox handlers
+
+        private void OnCBActivateChange(object sender, RoutedEventArgs e) =>
+            Preferences.StoreCBValue("cbActivate", cbActivate.IsChecked.GetValueOrDefault());
+
+        private void OnCBDectivateChange(object sender, RoutedEventArgs e) =>
+            Preferences.StoreCBValue("cbDeactivate", cbDeactivate.IsChecked.GetValueOrDefault());
+
+        private void OnCBStartupChange(object sender, RoutedEventArgs e) {
+            string REGISTRY_SUBKEY_STARTUP = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(REGISTRY_SUBKEY_STARTUP);
+            bool newState = cbStartup.IsChecked.GetValueOrDefault();
+            if (newState)
+                key.SetValue("Talkey", Assembly.GetEntryAssembly().Location, RegistryValueKind.String);
+            else
+                try { key.DeleteValue("Talkey"); } catch (ArgumentException) { }
+            key.Dispose();
+
+            Preferences.StoreCBValue("cbStartup", newState);
         }
 
         #endregion

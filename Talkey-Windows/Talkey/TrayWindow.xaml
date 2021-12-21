@@ -17,9 +17,9 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Push to talk key">
+        <GroupBox Grid.Row="0" Header="Push to talk key">
             <StackPanel Orientation="Vertical">
-                <DockPanel Grid.Row="1" LastChildFill="False" Margin="5">
+                <DockPanel LastChildFill="False" Margin="5">
                     <Button x:Name="ChangeButton" Content="Change" Click="OnClickChange"
                             DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
                     <Button x:Name="DoneButton" Visibility="Collapsed" Content="Done" Click="OnClickDone"
@@ -28,9 +28,21 @@
                             DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
                     <StackPanel Orientation="Horizontal" x:Name="Keys" />
                 </DockPanel>
-                <TextBlock x:Name="KeyAdvice" Visibility="Collapsed" FontSize="11" Text="Press keys to add to combination, releasing has no effect." Foreground="Gray" Margin="5" />
+                <TextBlock x:Name="KeyAdvice" Visibility="Collapsed" FontSize="11" Foreground="Gray" Margin="5"
+                           Text="Press keys to add to combination, releasing has no effect."/>
             </StackPanel>
         </GroupBox>
 
+        <GroupBox Grid.Row="1" Header="Audio feedback" Margin="0 15 0 0" Padding="5 10 5 5">
+            <StackPanel Orientation="Vertical">
+                <CheckBox x:Name="cbActivate" Grid.Row="1" Content="Activate" IsChecked="True"
+                          Checked="OnCBActivateChange" Unchecked="OnCBActivateChange"/>
+                <CheckBox x:Name="cbDeactivate" Grid.Row="2" Content="Deactivate" Margin="0 5 0 0" IsChecked="True"
+                          Checked="OnCBDectivateChange" Unchecked="OnCBDectivateChange"/>
+            </StackPanel>
+        </GroupBox>
+
+        <CheckBox x:Name="cbStartup" Grid.Row="2" Margin="0 15 0 0" Content="Run at startup" IsChecked="True"
+                  Checked="OnCBStartupChange" Unchecked="OnCBStartupChange"/>
     </Grid>
 </Window>

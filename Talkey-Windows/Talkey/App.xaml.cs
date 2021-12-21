@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 
@@ -8,7 +9,6 @@ using Util;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
-using System;
 
 namespace Talkey {
     public partial class App : Application {
@@ -24,7 +24,7 @@ namespace Talkey {
             IPCHandler.Init();
             HookHandler.Init();
             SoundHandler.Init();
-            LoadPreferences();
+            Preferences.Load();
             trayWindow = new TrayWindow();
         }
 
@@ -41,10 +41,6 @@ namespace Talkey {
                 MessageBox.Show("Talkey is already running", "Talkey", MessageBoxButton.OK, MessageBoxImage.Information);
                 Current.Shutdown();
             }
-        }
-
-        void LoadPreferences() {
-            KeyHandler.CurrentKeyCombo.Add(VK.LeftControl);
         }
 
         void InitGlobalExceptionHandler() {
