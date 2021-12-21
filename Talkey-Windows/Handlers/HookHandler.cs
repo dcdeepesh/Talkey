@@ -12,12 +12,11 @@ namespace Handlers {
     }
 
     public class HookHandler {
-        //private static readonly string DLL_FILE = "C:\\Users\\dcdee\\CC\\Programs\\Talkey\\Debug\\Hook.dll";
         private static readonly string DLL_FILE = "Hook.dll";
 
         private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "RegisterCallback";
         private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "LowLevelKeyboardProc";
-
+        
         /*
         private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "_RegisterCallback@4";
         private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "_LowLevelKeyboardProc@12";
@@ -52,22 +51,26 @@ namespace Handlers {
 
         private static void LoadProcedures() {
             hDll = LoadLibrary(DLL_FILE);
-            if (hDll == null) {
+            if (hDll == IntPtr.Zero) {
                 Log.E("DLL not found");
                 return;
             }
+            Log.V("DLL address: " + hDll.ToString());
 
             lpfnRegisterCallback = GetProcAddress(hDll, REGISTER_CALLBACK_FUNCTION_NAME);
-            if (lpfnRegisterCallback == null) {
+            if (lpfnRegisterCallback == IntPtr.Zero) {
                 Log.E("RegisterCallback not found");
                 return;
             }
+            Log.V("RegisterCallback() address: " + lpfnRegisterCallback.ToString());
+
 
             lpfnLLKeyboardProc = GetProcAddress(hDll, LLKEYBOARDPROC_FUNCTION_NAME);
-            if (lpfnLLKeyboardProc == null) {
+            if (lpfnLLKeyboardProc == IntPtr.Zero) {
                 Log.E("LLKeyboardProc not found");
                 return;
             }
+            Log.V("LLKeyboardProc() address: " + lpfnLLKeyboardProc.ToString());
 
             Log.I("Loaded all procedures");
         }
@@ -108,7 +111,7 @@ namespace Handlers {
             LLKeyboardProc llKdbProc = (LLKeyboardProc)
                 Marshal.GetDelegateForFunctionPointer(lpfnLLKeyboardProc, typeof(LLKeyboardProc));
             hHook = SetWindowsHookEx(WH.KEYBOARD_LL, llKdbProc, hDll, 0);
-            if (hHook == null) {
+            if (hHook == IntPtr.Zero) {
                 Log.E("Hook unsuccessful");
                 return;
             }

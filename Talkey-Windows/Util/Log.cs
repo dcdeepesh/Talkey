@@ -2,8 +2,8 @@
 
 namespace Util {
     public class Log {
-        private static readonly string ERROR_FILE = "errlog.log";
-        private static readonly string LOG_FILE = "log.log";
+        private static readonly string ERROR_FILE = "LogError.log";
+        private static readonly string LOG_FILE = "Log.log";
 
         public static void Init() {
             File.Delete(ERROR_FILE);

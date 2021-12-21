@@ -32,7 +32,7 @@ namespace Talkey {
             HookHandler.Shutdown();
             IPCHandler.Shutdown();
             SoundHandler.Shutdown();
-            trayIcon.Dispose();
+            trayIcon?.Dispose();
         }
 
         void CheckSingleInstance() {
