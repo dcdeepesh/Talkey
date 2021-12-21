@@ -10,7 +10,7 @@ namespace Util {
             File.Delete(LOG_FILE);
         }
 
-        public static void E(string message) => File.AppendAllText(ERROR_FILE, message);
+        public static void E(string message) => File.AppendAllText(ERROR_FILE, message + "\n");
         public static void I(string message) => File.AppendAllText(LOG_FILE, "[INFO] " + message + "\n");
         public static void V(string message) => File.AppendAllText(LOG_FILE, "[VERBOSE] " + message + "\n");
         public static void W(string message) => File.AppendAllText(LOG_FILE, "[WARNING] " + message + "\n");
