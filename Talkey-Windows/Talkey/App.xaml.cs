@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Handlers;
+
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 
-using Handlers;
 using Util;
 
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace Talkey {
     public partial class App : Application {
-        readonly string CHROME_EXTENSION_URL = "https://www.google.com/";
+        const string CHROME_EXTENSION_URL = "https://www.google.com/";
         NotifyIcon trayIcon;
         readonly TrayWindow trayWindow;
 
@@ -44,7 +45,7 @@ namespace Talkey {
         }
 
         void InitGlobalExceptionHandler() {
-            AppDomain.CurrentDomain.UnhandledException += 
+            AppDomain.CurrentDomain.UnhandledException +=
                 (sender, e) => Log.E(e.ExceptionObject.ToString());
         }
 

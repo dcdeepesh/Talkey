@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Handlers;
 
 using Microsoft.Win32;
-using Handlers;
+
+using System;
+using System.Collections.Generic;
 
 namespace Talkey {
     public class Preferences {
-        static readonly string REGISTRY_SUBKEY_TALKEY = "Software\\Dec\\Talkey";
+        const string REGISTRY_SUBKEY_TALKEY = "Software\\Dec\\Talkey";
 
         public static bool cbActivate, cbDeactivate, cbStartup;
         public static VK[] keyCombo;
 
         public static void Load() {
             RegistryKey key = Registry.CurrentUser.CreateSubKey(REGISTRY_SUBKEY_TALKEY);
-            
-            cbActivate = (int)key.GetValue("cbActivate", 1) == 1;
-            cbDeactivate = (int)key.GetValue("cbDeactivate", 1) == 1;
-            cbStartup = (int)key.GetValue("cbStartup", 1) == 1;
+
+            cbActivate = (int) key.GetValue("cbActivate", 1) == 1;
+            cbDeactivate = (int) key.GetValue("cbDeactivate", 1) == 1;
+            cbStartup = (int) key.GetValue("cbStartup", 1) == 1;
 
             KeyHandler.CurrentKeyCombo.Clear();
             string[] keyNames = key.CreateSubKey("keys").GetValueNames();
@@ -26,7 +27,7 @@ namespace Talkey {
             } else {
                 KeyHandler.CurrentKeyCombo.Add(VK.LeftControl);
             }
-            
+
             key.Dispose();
         }
 

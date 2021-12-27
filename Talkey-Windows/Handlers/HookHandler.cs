@@ -6,25 +6,25 @@ using Util;
 
 namespace Handlers {
     class WH {
-        public static readonly int KEYBOARD    = 2;
-        public static readonly int MOUSE       = 7;
-        public static readonly int KEYBOARD_LL = 13;
-        public static readonly int MOUSE_LL    = 14;
+        public const int KEYBOARD    = 2;
+        public const int MOUSE       = 7;
+        public const int KEYBOARD_LL = 13;
+        public const int MOUSE_LL    = 14;
     }
 
     public class HookHandler {
-        private static readonly string DLL_FILE = "Hook.dll";
+        const string DLL_FILE = "Hook.dll";
 
-        private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "RegisterCallback";
-        private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "LowLevelKeyboardProc";
-        
+        const string REGISTER_CALLBACK_FUNCTION_NAME = "RegisterCallback";
+        const string LLKEYBOARDPROC_FUNCTION_NAME = "LowLevelKeyboardProc";
+
         /*
-        private static readonly string REGISTER_CALLBACK_FUNCTION_NAME = "_RegisterCallback@4";
-        private static readonly string LLKEYBOARDPROC_FUNCTION_NAME = "_LowLevelKeyboardProc@12";
+        const string REGISTER_CALLBACK_FUNCTION_NAME = "_RegisterCallback@4";
+        const string LLKEYBOARDPROC_FUNCTION_NAME = "_LowLevelKeyboardProc@12";
         */
 
-        private static IntPtr hDll, hHook;
-        private static IntPtr lpfnRegisterCallback, lpfnLLKeyboardProc;
+        static IntPtr hDll, hHook;
+        static IntPtr lpfnRegisterCallback, lpfnLLKeyboardProc;
 
         public static void Init() {
             Log.I("INIT");
@@ -50,7 +50,7 @@ namespace Handlers {
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        private static void LoadProcedures() {
+        static void LoadProcedures() {
             hDll = LoadLibrary(DLL_FILE);
             if (hDll == IntPtr.Zero) {
                 Log.E($"DLL loading error: {new Win32Exception(Marshal.GetLastWin32Error()).Message}");
@@ -81,7 +81,7 @@ namespace Handlers {
 
         private delegate void DRegisterCallback(KeyEventCallback callback);
 
-        private static void RegisterCallback() {
+        static void RegisterCallback() {
             DRegisterCallback registerCallback = (DRegisterCallback)
                 Marshal.GetDelegateForFunctionPointer(lpfnRegisterCallback, typeof(DRegisterCallback));
             callback = new KeyEventCallback(OnKeyEvent);
@@ -104,7 +104,7 @@ namespace Handlers {
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
-        private static void Hook() {
+        static void Hook() {
             LLKeyboardProc llKdbProc = (LLKeyboardProc)
                 Marshal.GetDelegateForFunctionPointer(lpfnLLKeyboardProc, typeof(LLKeyboardProc));
             hHook = SetWindowsHookEx(WH.KEYBOARD_LL, llKdbProc, hDll, 0);
@@ -120,7 +120,7 @@ namespace Handlers {
 
         #region Unhook
 
-        private static void Unhook() {
+        static void Unhook() {
             bool unhooked = UnhookWindowsHookEx(hHook);
             if (!unhooked)
                 Log.E("Unhook unsuccessful");
@@ -132,7 +132,7 @@ namespace Handlers {
 
         #region Key event callback
 
-        private static void OnKeyEvent(IntPtr wParam, IntPtr lParam) {
+        static void OnKeyEvent(IntPtr wParam, IntPtr lParam) {
             KeyHandler.OnKeyEvent(wParam, lParam);
         }
 

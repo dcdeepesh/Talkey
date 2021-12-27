@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
+﻿using Handlers;
 
 using Microsoft.Win32;
-using Handlers;
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
+using System.Windows;
 
 namespace Talkey {
     public partial class TrayWindow : Window {
@@ -86,13 +87,13 @@ namespace Talkey {
 
         #region Checkbox handlers
 
-        private void OnCBActivateChange(object sender, RoutedEventArgs e) =>
+        void OnCBActivateChange(object sender, RoutedEventArgs e) =>
             Preferences.StoreCBValue("cbActivate", cbActivate.IsChecked.GetValueOrDefault());
 
-        private void OnCBDectivateChange(object sender, RoutedEventArgs e) =>
+        void OnCBDectivateChange(object sender, RoutedEventArgs e) =>
             Preferences.StoreCBValue("cbDeactivate", cbDeactivate.IsChecked.GetValueOrDefault());
 
-        private void OnCBStartupChange(object sender, RoutedEventArgs e) {
+        void OnCBStartupChange(object sender, RoutedEventArgs e) {
             string REGISTRY_SUBKEY_STARTUP = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 
             RegistryKey key = Registry.CurrentUser.CreateSubKey(REGISTRY_SUBKEY_STARTUP);

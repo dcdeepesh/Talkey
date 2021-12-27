@@ -11,18 +11,18 @@ namespace Handlers {
         }
 
         public void SendUnmute() {
-             if (State == WebSocketState.Open)
+            if (State == WebSocketState.Open)
                 Send("UNMUTE");
         }
     }
 
     public class IPCHandler {
-        private static readonly int PORT = 23267;
+        const int PORT = 23267;
 
-        private static WebSocketServer wsServer;
-        private static WebSocketServerBehaviour wsBehaviour;
+        static WebSocketServer wsServer;
+        static WebSocketServerBehaviour wsBehaviour;
 
-        private static EventHandler onMute, onUnmute;
+        static EventHandler onMute, onUnmute;
 
         public static void Init() {
             wsServer = new WebSocketServer(PORT);

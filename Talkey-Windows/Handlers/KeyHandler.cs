@@ -281,9 +281,9 @@ namespace Handlers {
     }
 
     class WM {
-        public static readonly int KEYDOWN    = 0x0100;
-        public static readonly int KEYUP      = 0x0101;
-        public static readonly int SYSKEYDOWN = 0x0104;
-        public static readonly int SYSKEYUP   = 0x0105;
+        public const int KEYDOWN    = 0x0100;
+        public const int KEYUP      = 0x0101;
+        public const int SYSKEYDOWN = 0x0104;
+        public const int SYSKEYUP   = 0x0105;
     }
 }
