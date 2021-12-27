@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 using Util;
@@ -42,35 +43,31 @@ namespace Handlers {
 
         #region Load library and procedures
 
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr LoadLibrary(string dllToLoad);
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
-        [DllImport("kernel32.dll")]
+        [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
         private static void LoadProcedures() {
             hDll = LoadLibrary(DLL_FILE);
             if (hDll == IntPtr.Zero) {
-                Log.E("DLL not found");
+                Log.E($"DLL loading error: {new Win32Exception(Marshal.GetLastWin32Error()).Message}");
                 return;
             }
-            Log.V("DLL address: " + hDll.ToString());
 
             lpfnRegisterCallback = GetProcAddress(hDll, REGISTER_CALLBACK_FUNCTION_NAME);
             if (lpfnRegisterCallback == IntPtr.Zero) {
-                Log.E("RegisterCallback not found");
+                Log.E($"RegisterCallback not found: {new Win32Exception(Marshal.GetLastWin32Error()).Message}");
                 return;
             }
-            Log.V("RegisterCallback() address: " + lpfnRegisterCallback.ToString());
-
 
             lpfnLLKeyboardProc = GetProcAddress(hDll, LLKEYBOARDPROC_FUNCTION_NAME);
             if (lpfnLLKeyboardProc == IntPtr.Zero) {
-                Log.E("LLKeyboardProc not found");
+                Log.E($"LLKeyboardProc not found: {new Win32Exception(Marshal.GetLastWin32Error()).Message}");
                 return;
             }
-            Log.V("LLKeyboardProc() address: " + lpfnLLKeyboardProc.ToString());
 
             Log.I("Loaded all procedures");
         }
