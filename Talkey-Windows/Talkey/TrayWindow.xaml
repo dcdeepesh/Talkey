@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Talkey"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="Talkey settings" Height="450" Width="400">
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Title="Talkey settings" Height="400" Width="350">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -17,16 +18,16 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Row="0" Header="Push to talk key">
+        <GroupBox Grid.Row="0" Header="Push to talk key combo">
             <StackPanel Orientation="Vertical">
-                <DockPanel LastChildFill="False" Margin="5">
+                <DockPanel Margin="5" LastChildFill="False">
                     <Button x:Name="ChangeButton" Content="Change" Click="OnClickChange"
-                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0" VerticalAlignment="Center"/>
                     <Button x:Name="DoneButton" Visibility="Collapsed" Content="Done" Click="OnClickDone"
-                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0" VerticalAlignment="Center"/>
                     <Button x:Name="ResetButton" Visibility="Collapsed" Content="Reset" Click="OnClickReset"
-                            DockPanel.Dock="Right" Padding="4" Margin="3 0"/>
-                    <StackPanel Orientation="Horizontal" x:Name="Keys" />
+                            DockPanel.Dock="Right" Padding="4" Margin="3 0" VerticalAlignment="Center"/>
+                    <WrapPanel x:Name="Keys" />
                 </DockPanel>
                 <TextBlock x:Name="KeyAdvice" Visibility="Collapsed" FontSize="11" Foreground="Gray" Margin="5"
                            Text="Press keys to add to combination, releasing has no effect."/>

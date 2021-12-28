@@ -12,6 +12,8 @@ namespace Talkey {
     public partial class TrayWindow : Window {
         public TrayWindow() {
             InitializeComponent();
+            SetWindowPosition();
+            Loaded += (sender, args) => SetWindowPosition();
             ShowCurrentKeyCombo();
             cbActivate.IsChecked = Preferences.cbActivate;
             cbDeactivate.IsChecked = Preferences.cbDeactivate;
@@ -23,6 +25,24 @@ namespace Talkey {
             e.Cancel = true;
         }
 
+        void SetWindowPosition() {
+            int margin = 3;
+            var workArea = SystemParameters.WorkArea;
+            if (workArea.Top != 0) {
+                // taskbar is on the top
+                Top = workArea.Top + margin;
+                Left = workArea.Right - Width - margin;
+            } else if (workArea.Left != 0) {
+                // taskbar is on the left
+                Top = workArea.Bottom - Height - margin;
+                Left = workArea.Left + margin;
+            } else {
+                // tqaskbar is on the right or bottom
+                Top = workArea.Bottom - Height - margin;
+                Left = workArea.Right - Width - margin;
+            }
+        }
+
         void ShowCurrentKeyCombo() {
             foreach (VK key in KeyHandler.CurrentKeyCombo) {
                 Key keyView = new Key();
@@ -31,6 +51,8 @@ namespace Talkey {
             };
         }
 
+        #region Key combo changing logic
+        
         void OnClickChange(object sender, RoutedEventArgs e) {
             ChangeButton.Visibility = Visibility.Collapsed;
             ResetButton.Visibility = Visibility.Visible;
@@ -50,8 +72,6 @@ namespace Talkey {
             DoneButton.Visibility = Visibility.Collapsed;
             KeyAdvice.Visibility = Visibility.Collapsed;
         }
-
-        #region Key combo changing logic
 
         readonly HashSet<VK> newCombo = new HashSet<VK>();
 
