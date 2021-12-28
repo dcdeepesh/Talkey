@@ -5,6 +5,9 @@ using WebSocketSharp.Server;
 
 namespace Handlers {
     class WebSocketServerBehaviour : WebSocketBehavior {
+        protected override void OnOpen() => IPCHandler.Connected();
+        protected override void OnClose(CloseEventArgs e) => IPCHandler.Disconnected();
+
         public void SendMute() {
             if (State == WebSocketState.Open)
                 Send("MUTE");
@@ -31,8 +34,8 @@ namespace Handlers {
             wsServer.Start();
 
             onMute = (sender, kbdInfo) => wsBehaviour?.SendMute();
-            KeyHandler.OnMute += onMute;
             onUnmute = (sender, kbdInfo) => wsBehaviour?.SendUnmute();
+            KeyHandler.OnMute += onMute;
             KeyHandler.OnUnmute += onUnmute;
         }
 
@@ -44,5 +47,11 @@ namespace Handlers {
                 wsServer.Stop();
             wsServer = null;
         }
+
+        public static event EventHandler OnConnect;
+        public static event EventHandler OnDisconnect;
+
+        internal static void Connected() => OnConnect?.Invoke(null, null);
+        internal static void Disconnected() => OnDisconnect?.Invoke(null, null);
     }
 }
