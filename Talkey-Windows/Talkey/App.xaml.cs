@@ -56,11 +56,16 @@ namespace Talkey {
             ContextMenu menu = new ContextMenu(new[] { installChromeItem, exitItem });
 
             trayIcon = new NotifyIcon {
-                Icon = Talkey.Properties.Resources.TrayIcon,
+                Icon = Talkey.Properties.Resources.TrayIconOff,
                 Text = "Talkey (Google Meet Push-to-talk)",
                 ContextMenu = menu,
                 Visible = true,
             };
+
+            IPCHandler.OnConnect += (sender, args) =>
+                trayIcon.Icon = Talkey.Properties.Resources.TrayIcon;
+            IPCHandler.OnDisconnect += (sender, args) =>
+                trayIcon.Icon = Talkey.Properties.Resources.TrayIconOff;
 
             trayIcon.Click += (sender, e) => {
                 trayWindow.Show();
