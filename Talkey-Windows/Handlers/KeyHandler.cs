@@ -260,13 +260,13 @@ namespace Handlers {
                 Marshal.PtrToStructure(lParam, typeof(KbdLLHookStruct));
 
             if (wParam == new IntPtr(WM.KEYDOWN))
-                OnKeyPressed?.Invoke(new object(), kbdInfo);
+                OnKeyPressed?.Invoke(null, kbdInfo);
             else if (wParam == new IntPtr(WM.KEYUP))
-                OnKeyReleased?.Invoke(new object(), kbdInfo);
+                OnKeyReleased?.Invoke(null, kbdInfo);
             else if (wParam == new IntPtr(WM.SYSKEYDOWN))
-                ; // TODO what to do here?
+                OnKeyPressed?.Invoke(null, kbdInfo);
             else if (wParam == new IntPtr(WM.SYSKEYUP))
-                ; // TODO what to do here?
+                OnKeyReleased?.Invoke(null, kbdInfo);
             else
                 Log.E("Key handler not found");
         }
