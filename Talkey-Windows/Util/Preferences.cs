@@ -1,16 +1,15 @@
-﻿using Handlers;
-
+﻿
 using Microsoft.Win32;
 
 using System;
 using System.Collections.Generic;
 
-namespace Talkey {
+namespace Util {
     public class Preferences {
         const string REGISTRY_SUBKEY_TALKEY = "Software\\Dec\\Talkey";
 
         public static bool cbActivate, cbDeactivate, cbStartup;
-        public static VK[] keyCombo;
+        public static readonly HashSet<VK> CurrentKeyCombo = new HashSet<VK>();
 
         public static void Load() {
             RegistryKey key = Registry.CurrentUser.CreateSubKey(REGISTRY_SUBKEY_TALKEY);
@@ -19,19 +18,26 @@ namespace Talkey {
             cbDeactivate = (int) key.GetValue("cbDeactivate", 1) == 1;
             cbStartup = (int) key.GetValue("cbStartup", 1) == 1;
 
-            KeyHandler.CurrentKeyCombo.Clear();
+            CurrentKeyCombo.Clear();
             string[] keyNames = key.CreateSubKey("keys").GetValueNames();
             if (keyNames.Length > 0) {
                 foreach (string value in keyNames)
-                    KeyHandler.CurrentKeyCombo.Add((VK) int.Parse(value));
+                    CurrentKeyCombo.Add((VK) int.Parse(value));
             } else {
-                KeyHandler.CurrentKeyCombo.Add(VK.LeftControl);
+                CurrentKeyCombo.Add(VK.LeftControl);
             }
 
             key.Dispose();
         }
 
         public static void StoreCBValue(string cbName, bool isChecked) {
+            if (cbName == "cbActivate")
+                cbActivate = isChecked;
+            else if (cbName == "cbDeactivate")
+                cbDeactivate = isChecked;
+            else
+                cbStartup = isChecked;
+
             RegistryKey key = Registry.CurrentUser.CreateSubKey(REGISTRY_SUBKEY_TALKEY);
             key.SetValue(cbName, isChecked ? 1 : 0, RegistryValueKind.DWord);
             key.Dispose();

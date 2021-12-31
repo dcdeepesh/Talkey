@@ -72,7 +72,6 @@
     <Compile Include="Key.xaml.cs">
       <DependentUpon>Key.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Preferences.cs" />
     <Compile Include="TrayWindow.xaml.cs">
       <DependentUpon>TrayWindow.xaml</DependentUpon>
     </Compile>

@@ -8,12 +8,13 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 
+using Util;
+
 namespace Talkey {
     public partial class TrayWindow : Window {
         public TrayWindow() {
             InitializeComponent();
             SetWindowPosition();
-            Loaded += (sender, args) => SetWindowPosition();
             ShowCurrentKeyCombo();
             cbActivate.IsChecked = Preferences.cbActivate;
             cbDeactivate.IsChecked = Preferences.cbDeactivate;
@@ -25,7 +26,7 @@ namespace Talkey {
             e.Cancel = true;
         }
 
-        void SetWindowPosition() {
+        public void SetWindowPosition() {
             int margin = 3;
             var workArea = SystemParameters.WorkArea;
             if (workArea.Top != 0) {
@@ -44,7 +45,7 @@ namespace Talkey {
         }
 
         void ShowCurrentKeyCombo() {
-            foreach (VK key in KeyHandler.CurrentKeyCombo) {
+            foreach (VK key in Preferences.CurrentKeyCombo) {
                 Key keyView = new Key();
                 keyView.KeyName.Text = key.ToString();
                 Keys.Children.Add(keyView);

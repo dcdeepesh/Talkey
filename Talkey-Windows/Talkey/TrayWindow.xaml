@@ -36,14 +36,16 @@
 
         <GroupBox Grid.Row="1" Header="Audio feedback" Margin="0 15 0 0" Padding="5 10 5 5">
             <StackPanel Orientation="Vertical">
-                <CheckBox x:Name="cbActivate" Grid.Row="1" Content="Activate" IsChecked="True"
-                          Checked="OnCBActivateChange" Unchecked="OnCBActivateChange"/>
-                <CheckBox x:Name="cbDeactivate" Grid.Row="2" Content="Deactivate" Margin="0 5 0 0" IsChecked="True"
-                          Checked="OnCBDectivateChange" Unchecked="OnCBDectivateChange"/>
+                <CheckBox x:Name="cbActivate" Grid.Row="1"
+                          Checked="OnCBActivateChange" Unchecked="OnCBActivateChange"
+                          Content="Push to talk activate" />
+                <CheckBox x:Name="cbDeactivate" Grid.Row="2" Margin="0 5 0 0"
+                          Checked="OnCBDectivateChange" Unchecked="OnCBDectivateChange"
+                          Content="Push to talk deactivate" />
             </StackPanel>
         </GroupBox>
 
-        <CheckBox x:Name="cbStartup" Grid.Row="2" Margin="0 15 0 0" Content="Run at startup" IsChecked="True"
+        <CheckBox x:Name="cbStartup" Grid.Row="2" Margin="0 15 0 0" Content="Run at startup"
                   Checked="OnCBStartupChange" Unchecked="OnCBStartupChange"/>
     </Grid>
 </Window>

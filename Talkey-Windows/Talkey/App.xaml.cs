@@ -13,7 +13,7 @@ using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace Talkey {
     public partial class App : Application {
-        const string CHROME_EXTENSION_URL = "https://www.google.com/";
+        const string CHROME_EXTENSION_URL = "https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh";
         NotifyIcon trayIcon;
         readonly TrayWindow trayWindow;
 
@@ -68,6 +68,7 @@ namespace Talkey {
                 trayIcon.Icon = Talkey.Properties.Resources.TrayIconOff;
 
             trayIcon.Click += (sender, e) => {
+                trayWindow.SetWindowPosition();
                 trayWindow.Show();
                 trayWindow.Activate();
             };

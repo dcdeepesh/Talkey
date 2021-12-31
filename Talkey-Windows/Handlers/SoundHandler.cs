@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Media;
 
+using Util;
+
 namespace Handlers {
     public class SoundHandler {
         static SoundPlayer activatePlayer, deactivatePlayer;
@@ -26,12 +28,12 @@ namespace Handlers {
         public static void OnDisconnect(object sender, EventArgs e) => playSound = false;
 
         public static void OnMute(object sender, EventArgs args) {
-            if (playSound)
+            if (playSound && Preferences.cbDeactivate)
                 deactivatePlayer.Play();
         }
 
         public static void OnUnmute(object sender, EventArgs args) {
-            if (playSound)
+            if (playSound && Preferences.cbActivate)
                 activatePlayer.Play();
         }
     }
