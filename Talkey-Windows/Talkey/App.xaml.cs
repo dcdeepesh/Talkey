@@ -10,6 +10,8 @@ using Util;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
+using MouseButtons = System.Windows.Forms.MouseButtons;
 
 namespace Talkey {
     public partial class App : Application {
@@ -68,6 +70,8 @@ namespace Talkey {
                 trayIcon.Icon = Talkey.Properties.Resources.TrayIconOff;
 
             trayIcon.Click += (sender, e) => {
+                if (e is MouseEventArgs mouseEvent && mouseEvent.Button != MouseButtons.Left)
+                    return;
                 trayWindow.SetWindowPosition();
                 trayWindow.Show();
                 trayWindow.Activate();
