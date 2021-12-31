@@ -18,32 +18,40 @@ namespace Talkey {
         const string CHROME_EXTENSION_URL = "https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh";
         NotifyIcon trayIcon;
         readonly TrayWindow trayWindow;
+        readonly bool toRun;
 
         public App() {
-            CheckSingleInstance();
-            Log.Init();
-            InitGlobalExceptionHandler();
-            InitTrayIcon();
-            IPCHandler.Init();
-            HookHandler.Init();
-            SoundHandler.Init();
-            Preferences.Load();
-            trayWindow = new TrayWindow();
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            toRun = CheckSingleInstance();
+            if (toRun) {
+                Log.Init();
+                InitGlobalExceptionHandler();
+                InitTrayIcon();
+                IPCHandler.Init();
+                HookHandler.Init();
+                SoundHandler.Init();
+                Preferences.Load();
+                trayWindow = new TrayWindow();
+            }
         }
 
         void OnExit(object sender, ExitEventArgs e) {
-            HookHandler.Shutdown();
-            IPCHandler.Shutdown();
-            SoundHandler.Shutdown();
-            trayIcon?.Dispose();
+            if (toRun) {
+                HookHandler.Shutdown();
+                IPCHandler.Shutdown();
+                SoundHandler.Shutdown();
+                trayIcon?.Dispose();
+            }
         }
 
-        void CheckSingleInstance() {
+        bool CheckSingleInstance() {
             Mutex mutex = new Mutex(true, "TalkeyWindowsSingleInstanceMutex");
             if (!mutex.WaitOne(0, true)) {
                 MessageBox.Show("Talkey is already running", "Talkey", MessageBoxButton.OK, MessageBoxImage.Information);
                 Current.Shutdown();
+                return false;
             }
+            return true;
         }
 
         void InitGlobalExceptionHandler() {
