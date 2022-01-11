@@ -86,7 +86,7 @@ You can, but make sure to read [Run at startup](#run-at-startup) first.
 Support for them is coming soon.
 
 **Is the feedback sound effect from Discord?**  
-No. Ofcourse not. Or is it? ;)
+It was, but as of version 1.1, sound effect have been customized due to copyright issues🙁 (made possible with [NsiX](https://nsix.itch.io/)'s help).
 
 **I'm doing everything accordingly but Talkey is still not working for me, what do I do?**  
 Congratulations! No I mean it's bad news ofcourse, but you've just found an issue! Go ahead and open an issue, mentioning your problem and appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc).
