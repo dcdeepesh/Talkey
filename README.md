@@ -1,7 +1,7 @@
 # Talkey
 
 [![Chrome badge](https://img.shields.io/chrome-web-store/v/ikpllienmchnfkfbfindmciobnhdgjlh)](https://chrome.google.com/webstore/detail/talkey/ikpllienmchnfkfbfindmciobnhdgjlh)
-[![Windows badge](https://img.shields.io/badge/windows-v1.0-blue)](https://github.com/dcdeepesh/Talkey/releases/latest)
+[![Windows badge](https://img.shields.io/badge/windows-v1.1-blue)](https://github.com/dcdeepesh/Talkey/releases/latest)
 
 Talkey is a global push to talk utility for Google Meet. Global means the push to talk key can be used anywhere, not just when the Meet tab is open/focused.
 
