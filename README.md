@@ -1,16 +1,14 @@
 # Talkey
 
+[![Chrome badge](https://img.shields.io/chrome-web-store/v/ikpllienmchnfkfbfindmciobnhdgjlh)](https://chrome.google.com/webstore/detail/talkey/ikpllienmchnfkfbfindmciobnhdgjlh)
 [![Windows badge](https://img.shields.io/badge/windows-v1.1-blue)](https://github.com/dcdeepesh/Talkey/releases/latest)
 
-[![Chrome badge](https://img.shields.io/chrome-web-store/v/ikpllienmchnfkfbfindmciobnhdgjlh)](https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh)
-[![Edge badge](https://img.shields.io/badge/edge%20addons-v1.0-blue)](https://microsoftedge.microsoft.com/addons/detail/flhikbcahicljnkcehffnefgphedkhbc)
-
-Talkey is a global push to talk utility for Google Meet. Global means the push to talk key can be used anywhere, not just when the Meet tab is open/focused.
+Talkey is a global push to talk utility for Google Meet. Global means, the push to talk key can be used anywhere, not just when the Meet tab is open/focused.
 
 Its features include multi-key keybindings to activate push to talk, audio feedback on activate and deactivate and being globally accessible. Talkey achieves the global nature by having two running components communicating with each other; a browser component (i.e. browser extension), which handles the Google Meet controls, and a platform component (e.g. an app for the host OS), which takes care of keybindings.
 
-
 ## Table of contents
+
 - [Download and installation](#Download-and-Installation)
 - [Usage](#Usage)
 - [Configuring Talkey](#Configuring-Talkey)
@@ -20,22 +18,18 @@ Its features include multi-key keybindings to activate push to talk, audio feedb
 - [Uninstallation](#Uninstallation)
 - [Frequently Asked Questions (FAQ)](#Frequently-Asked-Questions-(FAQ))
 
-
 ## Download and Installation
 
-Talkey is currently supported on Chrome and Edge (browser component), and 64-bit Windows (platform component).
+Talkey is currently supported on Chrome (browser component) and 64-bit Windows (platform component).
 
-Latest versions of all components can be found below:
-- Chrome: [Chome Web Store](https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh)
-- Edge: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/flhikbcahicljnkcehffnefgphedkhbc)
-- Windows: [latest release](https://github.com/dcdeepesh/Talkey/releases/latest).
+Latest versions of all components can be found in the [latest release](https://github.com/dcdeepesh/Talkey/releases/latest). Browser component can be downloaded from its web store. Platform component can be downloaded as a zip file.
 
 > Your browser, OS, antivirus etc. may warn you that Talkey and/or its setup are harmful. This is just because the executables are unsigned, hence those warnings can be ignored.
-
 
 ## Usage
 
 To use Talkey,
+
 1. First make sure the platform component is running. To make this step easier, Talkey runs at start by default.
 
     On Windows this can be seen in the system tray or notification area. If you unchecked the checkbox to run at start, manually run the application from its desktop icon or start menu entry. If you deleted both, run it from Talkey's installation folder (`C:\Users\<user>\AppData\Local\Programs\Talkey`).
@@ -45,9 +39,8 @@ To use Talkey,
 3. The extension icon should now (briefly) become yellow, indicating that it is connecting to the platform component.
 
 4. When it connects to the platform component, its icon turns blue, indicating Talkey is now ready to use.
-   
-You can now use Talkey. Your mic in the meeting will stay unmuted as long as you hold the push to talk key. Pushing it will unmute, releasing will mute again. You get audio feedback on mute and unmute. The default push to talk key is left control. To see how to change it, see [Changing the push to talk keybinding](#Changing-the-push-to-talk-keybinding).
 
+You can now use Talkey. Your mic in the meeting will stay unmuted as long as you hold the push to talk key. Pushing it will unmute, releasing will mute again. You get audio feedback on mute and unmute. The default push to talk key is left control. To see how to change it, see [Changing the push to talk keybinding](#Changing-the-push-to-talk-keybinding).
 
 ## Configuring Talkey
 
@@ -75,26 +68,34 @@ When uninstalling Talkey, make sure to uninstall both the browser extension and 
 
 ## Frequently Asked Questions (FAQ)
 
-**What is the default push to talk key?**  
-Left control
+### **What is the default push to talk key?**  
 
-**Does talkey support multiple keybindings?**  
-Not yet. Talkey only supports multiple keys in a single keybinding, but not multiple keybindings.
+>Left control
 
-**Can I use Talkey on 32-bit Windows?**  
-Talkey hasn't been tested on 32-bit Windows. So the behaviour is undefined. However, it will most likely not work, yet.
+### **Does talkey support multiple keybindings?**  
 
-**Can I close Talkey from the system tray/notification area?**  
-You can, but make sure to read [Run at startup](#run-at-startup) first.
+>Not yet. Talkey only supports multiple keys in a single keybinding, but not multiple keybindings.
 
-**What about OSes other than Windows and browsers other than Chrome?**  
-Support for them is coming soon.
+### **Can I use Talkey on 32-bit Windows?**  
 
-**Are the feedback sound effects from Discord?**  
-They were, but as of version 1.1, sound effects have been customized due to copyright issues🙁 (made possible with [NsiX](https://nsix.itch.io/)'s help).
+>Talkey hasn't been tested on 32-bit Windows. So the behaviour is undefined. However, it will most likely not work, yet.
 
-**I'm doing everything accordingly but Talkey is still not working for me, what do I do?**  
-Congratulations! No I mean it's bad news ofcourse, but you've just found an issue! Go ahead and open an issue, mentioning your problem and appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc).
+### **Can I close Talkey from the system tray/notification area?**  
 
-**Talkey works fine for me, but I've found a bug, now what?**  
-Open an issue! Mention appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc) and the bug you've encountered. If possible, mention the smallest (and simplest) amount of steps to reproduce the bug.
+>You can, but make sure to read [Run at startup](#run-at-startup) first.
+
+### **What about OSes other than Windows and browsers other than Chrome?**  
+
+>Support for them is coming soon.
+
+### **Is the feedback sound effect from Discord?**  
+
+>It was, but as of version 1.1, sound effect have been customized due to copyright issues🙁 (made possible with [NsiX](https://nsix.itch.io/)'s help).
+
+### **I'm doing everything accordingly but Talkey is still not working for me, what do I do?**  
+
+>Congratulations! No I mean it's bad news ofcourse, but you've just found an issue! Go ahead and open an issue, mentioning your problem and appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc).
+
+### **Talkey works fine for me, but I've found a bug, now what?**  
+
+>Open an issue! Mention appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc) and the bug you've encountered. If possible, mention the smallest (and simplest) amount of steps to reproduce the bug.
