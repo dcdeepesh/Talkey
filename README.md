@@ -1,7 +1,9 @@
 # Talkey
 
-[![Chrome badge](https://img.shields.io/chrome-web-store/v/ikpllienmchnfkfbfindmciobnhdgjlh)](https://chrome.google.com/webstore/detail/talkey/ikpllienmchnfkfbfindmciobnhdgjlh)
 [![Windows badge](https://img.shields.io/badge/windows-v1.1-blue)](https://github.com/dcdeepesh/Talkey/releases/latest)
+
+[![Chrome badge](https://img.shields.io/chrome-web-store/v/ikpllienmchnfkfbfindmciobnhdgjlh)](https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh)
+[![Edge badge](https://img.shields.io/badge/edge%20addons-v1.0-blue)](https://microsoftedge.microsoft.com/addons/detail/flhikbcahicljnkcehffnefgphedkhbc)
 
 Talkey is a global push to talk utility for Google Meet. Global means the push to talk key can be used anywhere, not just when the Meet tab is open/focused.
 
@@ -21,9 +23,12 @@ Its features include multi-key keybindings to activate push to talk, audio feedb
 
 ## Download and Installation
 
-Talkey is currently supported on Chrome (browser component) and 64-bit Windows (platform component).
+Talkey is currently supported on Chrome and Edge (browser component), and 64-bit Windows (platform component).
 
-Latest versions of all components can be found in the [latest release](https://github.com/dcdeepesh/Talkey/releases/latest). Browser component can be downloaded from its web store. Platform component can be downloaded as a zip file.
+Latest versions of all components can be found below:
+- Chrome: [Chome Web Store](https://chrome.google.com/webstore/detail/ikpllienmchnfkfbfindmciobnhdgjlh)
+- Edge: [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/flhikbcahicljnkcehffnefgphedkhbc)
+- Windows: [latest release](https://github.com/dcdeepesh/Talkey/releases/latest).
 
 > Your browser, OS, antivirus etc. may warn you that Talkey and/or its setup are harmful. This is just because the executables are unsigned, hence those warnings can be ignored.
 
@@ -85,8 +90,8 @@ You can, but make sure to read [Run at startup](#run-at-startup) first.
 **What about OSes other than Windows and browsers other than Chrome?**  
 Support for them is coming soon.
 
-**Is the feedback sound effect from Discord?**  
-It was, but as of version 1.1, sound effect have been customized due to copyright issues🙁 (made possible with [NsiX](https://nsix.itch.io/)'s help).
+**Are the feedback sound effects from Discord?**  
+They were, but as of version 1.1, sound effects have been customized due to copyright issues🙁 (made possible with [NsiX](https://nsix.itch.io/)'s help).
 
 **I'm doing everything accordingly but Talkey is still not working for me, what do I do?**  
 Congratulations! No I mean it's bad news ofcourse, but you've just found an issue! Go ahead and open an issue, mentioning your problem and appropriate system configuration (OS, OS version, 32-bit or 64-bit, browser, browser version etc).
