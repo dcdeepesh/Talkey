@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Talkey"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "Deepesh Choudhary"
 #define MyAppURL "https://github.com/dcdeepesh/Talkey"
 #define MyAppExeName "Talkey.exe"
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
 OutputDir=.
-OutputBaseFilename=Talkey-1.0
+OutputBaseFilename={#MyAppName}-{#MyAppVersion}-Setup
 SetupIconFile=SetupIcon.ico
 Compression=lzma
 SolidCompression=yes
